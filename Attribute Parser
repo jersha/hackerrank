@@ -1,0 +1,117 @@
+#include <iostream> 
+#include <algorithm>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+void process_input(std::vector<std::vector<std::string>>& dbc, std::string input, std::vector<std::string>& prev_tags) {
+	std::vector<std::string> temp;
+	std::string loop_temp;
+
+	int loop = 1, loop_old = 1;
+	while (input[loop] != ' ' && input[loop] != '>') {
+		loop++;
+	}
+	loop_temp = input.substr(loop_old, (loop - loop_old));
+	temp.push_back(loop_temp);
+	for (int i = (prev_tags.size() - 1); i > -1; i--) {
+		temp.push_back(prev_tags[i]);
+	}
+	prev_tags.push_back(loop_temp);
+	loop_old = (loop + 1);
+	loop = loop_old;
+
+	while (input[loop - 1] != '>') {
+		while (input[loop] != ' ') {
+			loop++;
+		}
+		loop_temp = input.substr(loop_old, (loop - loop_old));
+		temp.push_back(loop_temp);
+		loop_old = (loop + 4);
+		loop = loop_old;
+		while (input[loop] != '"') {
+			loop++;
+		}
+		loop_temp = input.substr(loop_old, (loop - loop_old));
+		temp.push_back(loop_temp);
+		loop_old = (loop + 2);
+		loop = loop_old;
+	}
+	dbc.push_back(temp);
+}
+
+void print_output(std::vector<std::vector<std::string>> dbc, std::string input, std::vector<std::string>& outputs) {
+	std::string attribute, tag;
+	int size_in = input.size();
+	int size_dbc = dbc.size();
+	int size_out = outputs.size();
+	int loop = (size_in - 1), loop_old = (size_in - 1);
+	std::vector<std::string> temp;
+	while (input[loop] != '~') {
+		loop--;
+	}
+	attribute = input.substr((loop + 1), (loop_old - loop));
+	loop_old = loop - 1;
+	loop = loop_old;
+	while (loop > -1){
+		while (input[loop] != '.') {
+			loop--;
+			if (loop == -1) {
+				break;
+			}
+		}
+		tag = input.substr((loop + 1), (loop_old - loop));
+		temp.push_back(tag);
+		loop_old = loop - 1;
+		loop = loop_old;
+	}
+	for (int row = 0; row < size_dbc; row++) {
+		bool valid = 1;
+		for (int temp_loop = 0; temp_loop < temp.size(); temp_loop++) {
+			if (dbc[row].size() >= temp.size()) {
+				if (dbc[row][temp_loop] != temp[temp_loop]) {
+					valid = 0;
+				}
+			}
+		}
+		if (valid) {
+			for (int column = temp.size(); column < (dbc[row].size() - 1); (column += 2)) {
+				if (dbc[row][column] == attribute) {
+					outputs.push_back(dbc[row][column + 1]);
+				}
+			}
+		}
+	}
+	if (size_out == outputs.size()) {
+		outputs.push_back("Not Found!");
+	}
+}
+
+int main()
+{
+	std::vector<std::vector<std::string>> dbc;
+	std::vector<std::string> outputs;
+	std::vector<std::string> prev_tags;
+	std::string input;
+	int N, Q;
+	std::cin >> N >> Q;
+	cin.ignore();
+	for (int loop = 0; loop < N; loop++) {
+		getline(cin, input);
+		if (input[0] == '<' && input[1] != '/') {
+			process_input(dbc, input, prev_tags);
+		}
+		else if(input[0] == '<' && input[1] == '/'){
+			prev_tags.pop_back();
+		}
+	}
+	for (int loop = 0; loop < Q; loop++) {
+		getline(cin, input);
+		print_output(dbc, input, outputs);
+	}
+	for (int loop = 0; loop < outputs.size(); loop++) {
+		std::cout << outputs[loop] << std::endl;
+	}
+	return 0;
+}
