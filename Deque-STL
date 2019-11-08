@@ -1,0 +1,53 @@
+#include <iostream>
+#include <deque> 
+using namespace std;
+
+void printKMax(int arr[], int n, int k){
+    int max = arr[0], max_index = 0;
+    for (int i = 1; i < k; i++) {
+        if (max < arr[i]) {
+            max = arr[i];
+            max_index = i;
+        }
+    }
+    std::cout << max << " ";
+
+    for (int i = 1; (i + k) < (n + 1); i++) {
+        if (max_index == (i - 1)) {
+            max = arr[i + k - 1];
+            max_index = i + k - 1;
+            for (int z = i; z < (i + k); z++) {
+                if (max < arr[z]) {
+                    max = arr[z];
+                    max_index = z;
+                }
+            }
+        }
+        else {
+            if (max < arr[i + k - 1]) {
+                max = arr[i + k - 1];
+                max_index = i + k - 1;
+            }
+        }
+        std::cout << max << " ";
+    }
+    std::cout << std::endl;
+}
+
+int main(){
+  
+	int t;
+	cin >> t;
+	while(t>0) {
+		int n,k;
+    	cin >> n >> k;
+    	int i;
+    	int arr[n];
+    	for(i=0;i<n;i++)
+      		cin >> arr[i];
+    	printKMax(arr, n, k);
+    	t--;
+  	}
+  	return 0;
+}
+
