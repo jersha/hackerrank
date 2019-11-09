@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+/*
+ * Complete the timeConversion function below.
+ */
+string timeConversion(string s) {
+    int hour = ((s[0]- 48) * 10) + (s[1] - 48);
+    int min = ((s[3]- 48) * 10) + (s[4] - 48);
+    int sec = ((s[6]- 48) * 10) + (s[7] - 48);
+    if((hour >= 1 && hour <= 12) && (min >= 0 && min <= 59) && (sec >= 0 && sec <= 59)){
+        if(s[8] == 'A' && s[9] == 'M'){
+            if(hour == 12){
+                hour -= 12;
+            }
+        }else if(s[8] == 'P' && s[9] == 'M'){
+            if(hour >= 1 && hour <= 11){
+                hour += 12;
+            }
+        }
+    }
+    int temp = hour / 10;
+    s[0] = temp + 48;
+    s[1] = (hour - (temp * 10)) + 48;
+    s.resize(8);
+    return s;
+}
+
+int main()
+{
+    ofstream fout(getenv("OUTPUT_PATH"));
+
+    string s;
+    getline(cin, s);
+
+    string result = timeConversion(s);
+
+    fout << result << "\n";
+
+    fout.close();
+
+    return 0;
+}
