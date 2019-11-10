@@ -1,0 +1,41 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+class Message {
+private:
+    std::string value;
+    int id;
+public:
+    static int count;
+    Message() {} 
+    Message(const string& text) {
+        value = text;
+        id = count;
+        count++;
+    }
+    const string& get_text() {
+        return value;
+    }
+    bool operator < (const Message& M2) {
+        if (id < M2.id)
+            return true;
+        else
+            return false;
+    }
+};
+
+int Message::count = 0;
+
+class MessageFactory {
+public:
+    MessageFactory() {}
+    Message create_message(const string& text) {
+        Message out(text);
+        return out;
+    }
+};
+
+class Recipient {
