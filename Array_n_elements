@@ -12,10 +12,10 @@ public:
 int main() {
 	int n = 10;
 	array_n instance(n);
-	for (int loop = 0; loop < 10; loop++) {
-		instance.arrayName[loop] = 10;
+	for (int loop = 0; loop < n; loop++) {
+		instance.arrayName[loop] = (10 + loop);
 	}
-	for (int loop = 0; loop < 10; loop++) {
-		std::cout<< instance.arrayName[loop] << std::endl;
+	for (int loop = 0; loop < n; loop++) {
+		std::cout<< instance.arrayName[loop];
 	}
 }
