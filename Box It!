@@ -1,0 +1,60 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+class Box {
+private:
+    int l, b, h;
+public:
+    Box() {
+        l = 0;
+        b = 0;
+        h = 0;
+    }
+
+    Box(int l, int b, int h) {
+        this->l = l;
+        this->b = b;
+        this->h = h;
+    }
+
+    Box(const Box& B)  {
+        this->l = B.l;
+        this->b = B.b;
+        this->h = B.h;
+    }
+
+    int getLength() const {
+        return l;
+    }
+    int getBreadth() const {
+        return b;
+    }
+    int getHeight() const {
+        return h;
+    }
+    long long CalculateVolume() {
+        long long volume = l;
+        volume *= b;
+        volume *= h;
+        return volume;
+    }
+    bool operator<(Box& box) {
+        if (box.l < l) {
+            return 0;
+        }else if(box.b < b && box.l == l) {
+            return 0;
+        }
+        else if (box.h < h && box.b == b && box.l == l) {
+            return 0;
+        }
+        else {
+            return 1;
+        }
+    }
+};
+
+ostream& operator<<(ostream& stream, Box& box) {
+    stream << box.getLength() << " " << box.getBreadth() << " " << box.getHeight();
+    return stream;
+}
