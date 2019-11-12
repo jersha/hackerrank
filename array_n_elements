@@ -1,0 +1,21 @@
+#include "pch.h"
+#include<iostream>
+
+class array_n {
+public:
+	int* arrayName;
+	array_n(int n) {
+		arrayName = new int[n];
+	}
+};
+
+int main() {
+	int n = 10;
+	array_n instance(n);
+	for (int loop = 0; loop < 10; loop++) {
+		instance.arrayName[loop] = 10;
+	}
+	for (int loop = 0; loop < 10; loop++) {
+		std::cout<< instance.arrayName[loop] << std::endl;
+	}
+}
