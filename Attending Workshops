@@ -1,0 +1,73 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+struct Workshop {
+    int start_time, duration, end_time;
+    bool operator < (Workshop input) {
+        if (end_time < input.end_time) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+};
+
+struct Available_Workshops {
+    int n;
+    Workshop* wrshp_list;
+    void sorting() {
+        sort(wrshp_list, (wrshp_list + n));
+    }
+    void initialize(int start_time[], int duration[], int n) {
+        this->n = n;
+        wrshp_list = new Workshop[n];
+        for (int loop = 0; loop < n; loop++) {
+            wrshp_list[loop].start_time = start_time[loop];
+            wrshp_list[loop].duration = duration[loop];
+            wrshp_list[loop].end_time = (start_time[loop] + duration[loop]);
+        }
+    }
+};
+//Define the structs Workshops and Available_Workshops.
+//Implement the functions initialize and CalculateMaxWorkshops
+
+Available_Workshops* initialize(int start_time[], int duration[], int n) {
+    Available_Workshops* object = new Available_Workshops;
+    object->initialize(start_time, duration, n);
+    return object;
+}
+
+int CalculateMaxWorkshops(Available_Workshops* ptr) {
+    ptr->sorting();
+    int count = 1, prev = 0;
+    for (int loop = 1; loop < ptr->n; loop++) {
+        if (ptr->wrshp_list[loop].start_time >= ptr->wrshp_list[prev].end_time) {
+            prev = loop;
+            count++;
+        }
+    }
+    return count;
+}
+//Define the structs Workshops and Available_Workshops.
+//Implement the functions initialize and CalculateMaxWorkshops
+
+int main(int argc, char *argv[]) {
+    int n; // number of workshops
+    cin >> n;
+    // create arrays of unknown size n
+    int* start_time = new int[n];
+    int* duration = new int[n];
+
+    for(int i=0; i < n; i++){
+        cin >> start_time[i];
+    }
+    for(int i = 0; i < n; i++){
+        cin >> duration[i];
+    }
+
+    Available_Workshops * ptr;
+    ptr = initialize(start_time,duration, n);
+    cout << CalculateMaxWorkshops(ptr) << endl;
+    return 0;
+}
