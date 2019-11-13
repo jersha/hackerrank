@@ -1,0 +1,27 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+int main() {
+    int size, value, position_1, position_2;
+    std::vector<int> input;
+    std::cin >> size;
+    input.reserve(size);
+    for (int loop = 0; loop < size; loop++) {
+        std::cin >> value;
+        input.emplace_back(value);
+    }
+    std::cin >> position_1;
+    input.erase(input.begin() + position_1 - 1);
+    std::cin >> position_1 >> position_2;
+    input.erase((input.begin() + position_1 - 1), (input.begin() + position_2 - 1));
+    std::cout << input.size() << std::endl;
+    for (int loop = 0; loop < input.size(); loop++) {
+        std::cout << input[loop] << " ";
+    }
+    return 0;
+}
