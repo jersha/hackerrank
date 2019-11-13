@@ -1,0 +1,17 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    std::string in_1, in_2;
+    std::getline(std::cin, in_1);
+    std::getline(std::cin, in_2);
+    std::cout << in_1.size() << " " << in_2.size() << std::endl;
+    std::cout << (in_1 + in_2) << std::endl;
+    char temp = in_1[0];
+    in_1[0] = in_2[0];
+    in_2[0] = temp;
+    std::cout << in_1 << " " << in_2 << std::endl;
+    return 0;
+}
+
