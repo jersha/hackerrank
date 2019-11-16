@@ -1,0 +1,52 @@
+#include "pch.h"
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#include<chrono>
+using namespace std;
+
+void find_no(int array_in[], int search, int start, int end) {
+	int mid = (start + end) / 2;
+	if (array_in[mid] == search && array_in[mid - 1] != search) {
+	std::cout << "Yes " << (mid + 1) << std::endl;;
+	return;
+	}
+	else if (start == end) {
+		if (array_in[mid] < search) {
+			std::cout << "NO " << (mid + 2) << std::endl;;
+			return;
+		}
+		else {
+			std::cout << "NO " << (mid + 1) << std::endl;;
+			return;
+		}
+	}
+	else if (array_in[mid] < search) {
+		find_no(array_in, search, (mid + 1), end);
+	}
+	else {
+		find_no(array_in, search, start, (mid - 1));
+	}
+}
+
+int main() {
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+
+	start = std::chrono::system_clock::now();
+	int array_size, value, q_size, query;
+	cin >> array_size;
+	int* array_values = new int[array_size];
+	for (int loop = 0; loop < array_size; loop++) {
+		cin >> value;
+		array_values[loop] = value;
+	}
+	cin >> q_size;
+
+	for (int loop_q = 0; loop_q < q_size; loop_q++) {
+		cin >> query;
+		find_no(array_values, query, 0, (array_size - 1));
+	}
+	return 0;
+}
