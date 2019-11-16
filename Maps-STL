@@ -1,0 +1,35 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#include <map>
+using namespace std;
+
+
+int main() {
+    std::map <std::string, int> input;
+    int size, value, option;
+    std::string key;
+    std::cin >> size;
+    for (int loop = 0; loop < size; loop++) {
+        std::cin >> option;
+        if (option == 1) {
+            std::cin >> key >> value;
+            map<string, int>::iterator itr = input.find(key);
+            if (itr != input.end()) {
+                input[key] += value;
+            }
+            input.insert(make_pair(key, value));
+        }
+        else if (option == 2) {
+            std::cin >> key;
+            input.erase(key);
+        }
+        else if (option == 3) {
+            std::cin >> key;
+            std::cout << input[key] << std::endl;
+        }
+    }
+    return 0;
+}
